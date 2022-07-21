@@ -1,0 +1,106 @@
+<div class="row">
+  <div class="col-md-6 p-5">
+    <app-add-to-do class="col-md-6" (todoAdd)="addTodo($event)"></app-add-to-do>
+  </div>
+  <div class="col-md-6 p-5">
+    <div class="form-group mb-3">
+      <!--  -->
+      <h4 class="text-center mt-4">Your Task List</h4>
+
+      <ng-container *ngIf="this.toDos?.length === 0; else elseBlock">  
+        <div id="notToShow">No Task to display</div>
+      </ng-container>
+      <ng-template #elseBlock>
+        <ng-container *ngIf="!editBtn; else editElse">
+          <div *ngFor="let list of toDos; let i = index">
+            <div
+              class="list border rounded-3 border-3"
+              [ngClass]="{ strike: !list?.active }"
+            >
+              <span style="color: darkmagenta; font-size: 16px">
+                {{ i + 1 }}. {{ list.title }}:
+                <small style="color: #787878">{{
+                  list.taskDate | date: "medium"
+                }}</small></span
+              >
+              <br />
+              <span style="font-size: 15px"> {{ list.description }}</span>
+              <br />
+
+              <!-- <button type="button"  class="btn btn-danger" (click)="deleteList(list)">Delete</button> -->
+              <i
+                title="Delete"
+                class="fa fa-trash-o"
+                style="font-size: 24px; color: red"
+                (click)="deleteList(list)"
+              ></i>
+
+              <!-- <button type="button" class="btn btn-primary" (click)="editTask(list,i)"> Edit</button> -->
+              <i
+                title="Edit"
+                class="fa fa-edit"
+                (click)="editTask(list)"
+                style="
+                  font-size: 24px;
+                  color: blue;
+                  margin-left: 25px;
+                  margin-right: 25px;
+                "
+              >
+              </i>
+
+              <input 
+                type="checkbox"
+                (click)="onCheckboxClick(list)"
+                [checked]="!list?.active"
+              />
+              
+              <small class="text-center" for="exampleCheck1"> Done</small>
+            </div>
+          </div>
+        </ng-container>
+      </ng-template>
+
+      
+      <ng-template #editElse>
+        <form class="form">
+          <div class="form-group mb-3">
+            <h5 class="text-center mt-4">Update Your Task</h5>
+            <label for="title" class="form-lable">Task Title</label>
+            <input
+              type="text"
+              name="title"
+              [(ngModel)]="updatedTitle"
+              required
+              [value]="updatedTitle"
+              class="form-control mt-2"
+              id="title"
+            />
+          </div>
+          <div class="form-group">
+            <label for="todoDescription" class="form-lable">Description</label>
+            <textarea
+              class="form-control mt-2"
+              name="description"
+              required
+              [value]="updateddescription"
+              [(ngModel)]="updateddescription"
+              id="description"
+              rows="3"
+            ></textarea>
+          </div>
+          <button
+            type="submit"
+            (click)="update(updatedTitle, updateddescription)"
+            class="btn btn-warning mt-3"
+          >
+            Update
+          </button>
+          <button (click)="cancel()" class="btn btn-secondary mt-3">
+            Cancel
+          </button>
+        </form>
+      </ng-template>
+    </div>
+  </div>
+</div>

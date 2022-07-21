@@ -1,0 +1,23 @@
+    <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)">
+      <div class="form-group mb-3">
+        <label for="title" class="form-lable">Add New Task: </label>
+
+        <input type="text" name="title" #name="ngModel" [class.is-invalid]="name.invalid && name.touched" [(ngModel)]="title" 
+        required class="form-control mt-2" id="title"
+          placeholder="new task" />
+
+          <small  class="text-danger" [class.d-none]="name.valid || name.untouched">Title is required</small>
+      </div>
+
+      <div class="form-group">
+        <label for="todoDescription" class="form-lable">Description:</label>
+
+        <textarea class="form-control mt-2" #desc="ngModel" [class.is-invalid]="desc.invalid && desc.touched" name="desc" required [(ngModel)]="description"
+          id="description" rows="3" ></textarea>
+          <small  class="text-danger" [class.d-none]="desc.valid || desc.untouched">Description is required</small>
+      </div>
+
+      <button [disabled]="userForm.form.invalid" type="submit" (click)="onSubmit(userForm)" class="btn btn-success mt-3">ADD</button>
+    </form>
+
+    
